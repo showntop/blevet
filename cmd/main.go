@@ -45,11 +45,13 @@ func main() {
 		fmt.Printf("failed to read docs file: %s\n", err.Error())
 		os.Exit(1)
 	}
-	docs := make([]string, len(rows)-1)
-	for i := 1; i < len(rows); i++ {
+	rows = rows[1:len(rows)]
+	size := len(rows) / (*nShards) * (*nShards)
+
+	docs := make([]string, 0, size)
+	for i := 0; i < size; i++ {
 		docs = append(docs, rows[i][3])
 	}
-
 	fmt.Printf("%d documents read for indexing.\n", len(docs))
 
 	if len(docs)%(*nShards) != 0 {
