@@ -22,6 +22,22 @@ type Indexer struct {
 	alias  bleve.IndexAlias // All bleve indexes as one reference, for search
 }
 
+func (i *Indexer) Test() {
+	fields, _ := i.shards[0].Fields()
+	dict, _ := i.shards[0].FieldDict("Body")
+	// x, _ := dict.Next()
+	for {
+		x, err := dict.Next()
+		if err != nil {
+			fmt.Println(err)
+			break
+		}
+		fmt.Printf("%+v", x)
+	}
+
+	fmt.Println(fields)
+}
+
 func (i *Indexer) IdexerHub() bleve.IndexAlias {
 	return i.alias
 }
